@@ -2,9 +2,11 @@ package br.com.fiap.microservice_payment.controller;
 
 import br.com.fiap.microservice_payment.dto.PaymentDto;
 import br.com.fiap.microservice_payment.dto.WebhookDto;
+import br.com.fiap.microservice_payment.entity.PaymentEntity;
 import br.com.fiap.microservice_payment.service.PaymentService;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
+import com.mercadopago.resources.payment.Payment;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,15 +17,18 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
+    @GetMapping("/{paymentId}")
+    public PaymentEntity getPayment(@PathVariable String paymentId) {
+        return paymentService.getPayment(paymentId);
+    }
+
     @PostMapping("payment")
-    public String createPayment(@RequestBody PaymentDto paymentDto) throws MPException, MPApiException {
-        this.paymentService.createPayment(paymentDto);
-        return "ok";
+    public PaymentEntity createPayment(@RequestBody PaymentDto paymentDto) throws MPException, MPApiException {
+        return this.paymentService.createPayment(paymentDto);
     }
 
     @PostMapping("payment/webhook")
-    public String webhook(@RequestBody WebhookDto webhookDto) throws MPException, MPApiException {
-        this.paymentService.webhookHandle(webhookDto);
-        return "ok";
+    public PaymentEntity webhook(@RequestBody WebhookDto webhookDto) throws MPException, MPApiException {
+        return this.paymentService.webhookHandle(webhookDto);
     }
 }

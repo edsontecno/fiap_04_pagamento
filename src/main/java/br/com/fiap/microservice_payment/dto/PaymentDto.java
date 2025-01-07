@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentDto {
+    public String idempotencyKey;
     public BigDecimal amount;
     public String clientEmail;
 }
