@@ -4,6 +4,7 @@ import br.com.fiap.microservice_payment.dto.PaymentDto;
 import br.com.fiap.microservice_payment.dto.WebhookDto;
 import br.com.fiap.microservice_payment.entity.PaymentEntity;
 import br.com.fiap.microservice_payment.service.PaymentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
@@ -23,7 +24,7 @@ public class PaymentController {
     }
 
     @PostMapping("payment")
-    public PaymentEntity createPayment(@RequestBody PaymentDto paymentDto) throws MPException, MPApiException {
+    public PaymentEntity createPayment(@RequestBody PaymentDto paymentDto) throws MPException, MPApiException, JsonProcessingException {
         return this.paymentService.createPayment(paymentDto);
     }
 

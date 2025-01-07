@@ -8,6 +8,9 @@ import br.com.fiap.microservice_payment.exception.PaymentNotFoundedException;
 import br.com.fiap.microservice_payment.repository.PaymentRepository;
 import br.com.fiap.microservice_payment.service.PaymentService;
 import br.com.fiap.microservice_payment.util.Constants;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mercadopago.MercadoPagoConfig;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.payment.PaymentCreateRequest;
@@ -47,7 +50,7 @@ public class PaymentServiceImpl implements PaymentService {
         return repository.findById(lPaymentId).orElseThrow(PaymentNotFoundedException::new);
     }
 
-    public PaymentEntity createPayment(PaymentDto paymentDto) throws MPException, MPApiException {
+    public PaymentEntity createPayment(PaymentDto paymentDto) throws MPException, MPApiException, JsonProcessingException {
 
         Map<String, String> customHeaders = new HashMap<>();
         customHeaders.put("x-idempotency-key", paymentDto.getIdempotencyKey());
@@ -66,7 +69,12 @@ public class PaymentServiceImpl implements PaymentService {
                         .build())
                 .build();
 
-        return repository.save(of(client.create(createRequest, requestOptions)));
+        Payment payment = client.create(createRequest, requestOptions);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        System.out.println(mapper.writeValueAsString(payment));
+        return repository.save(of(payment));
     }
 
     public PaymentEntity webhookHandle(WebhookDto webhookDto) throws MPException, MPApiException {

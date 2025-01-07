@@ -18,9 +18,13 @@ public class PaymentEntity {
     private String operationType;
     private String status;
     private String statusDetail;
-    private String authorizationCode;
-    private String typeOrder;
     private BigDecimal transactionAmount;
+
+    private String qrCode;
+    private String qrCodeBase64;
+    private String ticketUrl;
+    private String issuerId;
+    private String paymentMethodId;
 
     public static PaymentEntity of(Payment payment) {
         return PaymentEntity.builder()
@@ -28,9 +32,12 @@ public class PaymentEntity {
                 .operationType(payment.getOperationType())
                 .status(payment.getStatus())
                 .statusDetail(payment.getStatusDetail())
-                .authorizationCode(payment.getAuthorizationCode())
-                .typeOrder(payment.getOrder().getType())
+                .qrCode(payment.getPointOfInteraction().getTransactionData().getQrCode())
+                .qrCodeBase64(payment.getPointOfInteraction().getTransactionData().getQrCodeBase64())
+                .ticketUrl(payment.getPointOfInteraction().getTransactionData().getTicketUrl())
                 .transactionAmount(payment.getTransactionAmount())
+                .issuerId(payment.getIssuerId())
+                .paymentMethodId(payment.getPaymentMethodId())
                 .build();
     }
 }
