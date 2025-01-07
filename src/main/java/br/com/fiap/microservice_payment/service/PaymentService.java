@@ -10,5 +10,5 @@ import com.mercadopago.exceptions.MPException;
 public interface PaymentService {
     PaymentEntity getPayment(String paymentId);
     PaymentEntity createPayment(PaymentDto paymentDto) throws MPException, MPApiException, JsonProcessingException;
-    PaymentEntity webhookHandle(WebhookDto webhookDto) throws MPException, MPApiException;
+    boolean webhookHandle(WebhookDto webhookDto) throws MPException, MPApiException;
 }

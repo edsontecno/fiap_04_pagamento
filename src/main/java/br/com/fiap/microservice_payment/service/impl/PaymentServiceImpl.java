@@ -77,17 +77,14 @@ public class PaymentServiceImpl implements PaymentService {
         return repository.save(of(payment));
     }
 
-    public PaymentEntity webhookHandle(WebhookDto webhookDto) throws MPException, MPApiException {
-        System.out.println(webhookDto);
-        PaymentClient client = new PaymentClient();
-        System.out.println("ID ===== " + webhookDto.getId());
+    public boolean webhookHandle(WebhookDto webhookDto) throws MPException, MPApiException {
         if(webhookDto.getAction().equals("payment.updated")) {
-            Payment pay = client.get(webhookDto.getData().getId());
-            System.out.println(pay.getStatus());
-            System.out.println(pay.getStatusDetail());
+            Payment payment = client.get(webhookDto.getData().getId());
+            repository.save(of(payment));
+            return true;
         }
 
-        return null;
+        return false;
     }
 
 }

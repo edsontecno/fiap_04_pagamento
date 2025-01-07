@@ -8,9 +8,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.payment.Payment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 @RestController
+@RequestMapping("payment")
 public class PaymentController {
     private final PaymentService paymentService;
 
@@ -18,18 +23,19 @@ public class PaymentController {
         this.paymentService = paymentService;
     }
 
-    @GetMapping("/{paymentId}")
-    public PaymentEntity getPayment(@PathVariable String paymentId) {
-        return paymentService.getPayment(paymentId);
+    @GetMapping("{paymentId}")
+    public ResponseEntity<PaymentEntity> getPayment(@PathVariable String paymentId) {
+        return ResponseEntity.ok(paymentService.getPayment(paymentId));
     }
 
-    @PostMapping("payment")
-    public PaymentEntity createPayment(@RequestBody PaymentDto paymentDto) throws MPException, MPApiException, JsonProcessingException {
-        return this.paymentService.createPayment(paymentDto);
+    @PostMapping
+    public ResponseEntity<PaymentEntity> createPayment(@RequestBody PaymentDto paymentDto) throws MPException, MPApiException, JsonProcessingException, URISyntaxException {
+        return ResponseEntity.created(new URI("/payment/{paymentId}")).body(this.paymentService.createPayment(paymentDto));
     }
 
-    @PostMapping("payment/webhook")
-    public PaymentEntity webhook(@RequestBody WebhookDto webhookDto) throws MPException, MPApiException {
-        return this.paymentService.webhookHandle(webhookDto);
+    @PostMapping("webhook")
+    public ResponseEntity<String> webhook(@RequestBody WebhookDto webhookDto) throws MPException, MPApiException {
+        this.paymentService.webhookHandle(webhookDto);
+        return ResponseEntity.ok("Received!");
     }
 }
