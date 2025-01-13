@@ -9,6 +9,9 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 COPY --from=build /app/target/microservice-payment.jar .
 
+ENV DATABASE_URL=URL
+ENV MERCADOPAGO_TOKEN=ABC
+
 EXPOSE 8080
 
-CMD ["java", "-jar", "microservice-payment.jar"]
+CMD ["java", "-jar", "-DDATABASE_URL=${DATABASE_URL}", "-DMERCADOPAGO_TOKEN=${MERCADOPAGO_TOKEN}", "microservice-payment.jar"]
