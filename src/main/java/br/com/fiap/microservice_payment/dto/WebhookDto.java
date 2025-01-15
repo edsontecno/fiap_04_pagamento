@@ -1,9 +1,6 @@
 package br.com.fiap.microservice_payment.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
@@ -11,6 +8,7 @@ import java.math.BigInteger;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class WebhookDto {
     private String action;

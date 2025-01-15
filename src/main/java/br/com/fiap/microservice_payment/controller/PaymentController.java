@@ -30,7 +30,8 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<PaymentEntity> createPayment(@RequestBody PaymentDto paymentDto) throws MPException, MPApiException, JsonProcessingException, URISyntaxException {
-        return ResponseEntity.created(new URI("/payment/{paymentId}")).body(this.paymentService.createPayment(paymentDto));
+        PaymentEntity paymentEntity = this.paymentService.createPayment(paymentDto);
+        return ResponseEntity.created(new URI("/payment/" + paymentEntity.getId())).body(paymentEntity);
     }
 
     @PostMapping("webhook")
