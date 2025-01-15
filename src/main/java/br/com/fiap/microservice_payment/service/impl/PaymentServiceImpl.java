@@ -46,7 +46,6 @@ public class PaymentServiceImpl implements PaymentService {
             throw new InvalidPaymentIdException();
 
         Long lPaymentId = Long.parseLong(paymentId);
-
         return repository.findById(lPaymentId).orElseThrow(PaymentNotFoundedException::new);
     }
 
@@ -73,7 +72,6 @@ public class PaymentServiceImpl implements PaymentService {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        System.out.println(mapper.writeValueAsString(payment));
         return repository.save(of(payment));
     }
 
