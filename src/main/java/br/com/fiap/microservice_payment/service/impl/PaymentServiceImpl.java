@@ -5,6 +5,7 @@ import br.com.fiap.microservice_payment.dto.WebhookDto;
 import br.com.fiap.microservice_payment.entity.PaymentEntity;
 import br.com.fiap.microservice_payment.exception.InvalidPaymentIdException;
 import br.com.fiap.microservice_payment.exception.PaymentNotFoundedException;
+import br.com.fiap.microservice_payment.factory.PaymentClientFactory;
 import br.com.fiap.microservice_payment.repository.PaymentRepository;
 import br.com.fiap.microservice_payment.service.PaymentService;
 import br.com.fiap.microservice_payment.util.Constants;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static br.com.fiap.microservice_payment.entity.PaymentEntity.of;
 
@@ -33,11 +35,10 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentClient client;
     private final PaymentRepository repository;
 
-    public PaymentServiceImpl(@Value("${com.mercadopago.token}") String token,
-                              PaymentRepository repository) {
-        MercadoPagoConfig.setAccessToken(token);
-        this.client = new PaymentClient();
+    public PaymentServiceImpl(PaymentRepository repository,
+                              PaymentClientFactory clientFactory) {
         this.repository = repository;
+        this.client = clientFactory.createPaymentClient();
     }
 
     public PaymentEntity getPayment(String paymentId) {
@@ -46,7 +47,12 @@ public class PaymentServiceImpl implements PaymentService {
             throw new InvalidPaymentIdException();
 
         Long lPaymentId = Long.parseLong(paymentId);
-        return repository.findById(lPaymentId).orElseThrow(PaymentNotFoundedException::new);
+        Optional<PaymentEntity> paymentEntity = repository.findById(lPaymentId);
+
+        if(paymentEntity.isEmpty())
+            throw new PaymentNotFoundedException();
+
+        return paymentEntity.get();
     }
 
     public PaymentEntity createPayment(PaymentDto paymentDto) throws MPException, MPApiException, JsonProcessingException {
