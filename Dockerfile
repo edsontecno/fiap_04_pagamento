@@ -14,4 +14,4 @@ ENV MERCADOPAGO_TOKEN=ABC
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "-DDATABASE_URL=${DATABASE_URL}", "-DMERCADOPAGO_TOKEN=${MERCADOPAGO_TOKEN}", "microservice-payment.jar"]
+CMD ["java", "-jar", "-Ddatabase_url=${DATABASE_URL}", "-Dmercadopago_token=${MERCADOPAGO_TOKEN}", "microservice-payment.jar"]

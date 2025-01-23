@@ -1,0 +1,22 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: ${DB_NAME}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: .
+    environment:
+      DATABASE_URL: ${ENV_DATABASE_URL}
+      MERCADOPAGO_TOKEN: ${ENV_MERCADOPAGO_TOKEN}
+    ports:
+      - "8080:8080"
+
+volumes:
+  mongo_data:
