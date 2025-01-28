@@ -11,7 +11,9 @@ COPY --from=build /app/target/microservice-payment.jar .
 
 ENV DATABASE_URL=URL
 ENV MERCADOPAGO_TOKEN=ABC
+ENV ENV_AWS_ACCESSKEY=ABC
+ENV AWS_SECRETKEY=ABC
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "-Ddatabase_url=${DATABASE_URL}", "-Dmercadopago_token=${MERCADOPAGO_TOKEN}", "microservice-payment.jar"]
+CMD ["java", "-jar", "-Ddatabase_url=${DATABASE_URL}", "-Dmercadopago_token=${MERCADOPAGO_TOKEN}", "-Daws_accesskey=${AWS_ACCESSKEY}", "-Daws_secretkey=${AWS_SECRETKEY}", "microservice-payment.jar"]
