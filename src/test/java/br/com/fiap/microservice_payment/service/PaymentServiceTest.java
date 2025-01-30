@@ -1,6 +1,7 @@
 package br.com.fiap.microservice_payment.service;
 
 import br.com.fiap.microservice_payment.dto.PaymentDto;
+import br.com.fiap.microservice_payment.dto.WebhookDataDto;
 import br.com.fiap.microservice_payment.dto.WebhookDto;
 import br.com.fiap.microservice_payment.entity.PaymentEntity;
 import br.com.fiap.microservice_payment.exception.InvalidPaymentIdException;
@@ -101,6 +102,23 @@ public class PaymentServiceTest {
     }
 
     @Order(5)
+    @Test
+    public void webhookHandle_sucessful() throws MPException, MPApiException, JsonProcessingException {
+        WebhookDto webhookDto = new WebhookDto();
+        webhookDto.setAction("payment.updated");
+        WebhookDataDto data = new WebhookDataDto();
+        data.setId(1L);
+        webhookDto.setData(data);
+
+        Payment payment = PaymentMock.getPayment();
+        PaymentEntity paymentEntity = PaymentEntity.of(payment);
+        when(paymentClient.get(any())).thenReturn(payment);
+        when(repository.save(any(PaymentEntity.class))).thenReturn(paymentEntity);
+        assertThat(this.paymentService.webhookHandle(webhookDto)).isEqualTo(true);
+
+    }
+
+    @Order(6)
     @Test
     public void createPayment_sucesss() throws Exception {
         Payment payment = PaymentMock.getPayment();
