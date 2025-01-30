@@ -1,8 +1,8 @@
 package br.com.fiap.microservice_payment.repository;
 
 import br.com.fiap.microservice_payment.entity.PaymentEntity;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface PaymentRepository extends MongoRepository<PaymentEntity, Long> {
+public interface PaymentRepository extends CrudRepository<PaymentEntity, Long> {
 
 }

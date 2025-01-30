@@ -1,7 +1,6 @@
 package br.com.fiap.microservice_payment.dto;
 
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigInteger;
 
