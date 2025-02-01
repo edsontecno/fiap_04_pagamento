@@ -73,7 +73,7 @@ public class PaymentServiceTest {
     @Order(2)
     @Test
     public void getPayment() {
-        Long lPaymentId = 1L;
+        String lPaymentId = "1";
         Optional<PaymentEntity> payment = Optional.of(
                 PaymentEntity.builder().id(lPaymentId).build());
         given(this.repository.findById(lPaymentId)).willReturn(payment);
@@ -84,7 +84,7 @@ public class PaymentServiceTest {
     @Order(3)
     @Test
     public void getPayment_throwNotFounded() {
-        Long lPaymentId = 1L;
+        String lPaymentId = "1";
         Optional<PaymentEntity> optional = Optional.empty();
         given(this.repository.findById(lPaymentId)).willReturn(optional);
 

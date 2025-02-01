@@ -47,7 +47,7 @@ public class PaymentControllertTest {
     @BeforeAll
     public void setup() {
         paymentEntity = PaymentEntity.builder()
-                .id(1L)
+                .id("1")
                 .build();
     }
 
@@ -59,7 +59,7 @@ public class PaymentControllertTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(1)));
+                .andExpect(jsonPath("$.id", is("1")));
     }
 
     @Order(2)
@@ -72,7 +72,7 @@ public class PaymentControllertTest {
                         .content(this.mapper.writeValueAsString(paymentDto)))
                 .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", is(1)));
+                .andExpect(jsonPath("$.id", is("1")));
 
     }
 
