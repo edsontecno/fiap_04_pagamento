@@ -46,8 +46,7 @@ public class PaymentServiceImpl implements PaymentService {
         if(paymentId == null || paymentId.isEmpty())
             throw new InvalidPaymentIdException();
 
-        Long lPaymentId = Long.parseLong(paymentId);
-        Optional<PaymentEntity> paymentEntity = repository.findById(lPaymentId);
+        Optional<PaymentEntity> paymentEntity = repository.findById(paymentId);
 
         if(paymentEntity.isEmpty())
             throw new PaymentNotFoundedException();
