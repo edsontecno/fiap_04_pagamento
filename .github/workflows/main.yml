@@ -29,6 +29,12 @@ jobs:
 
       - name: Coverage tests
         run: mvn clean verify
+
+      - name: SonarCloud Analysis
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          npx sonarqube-scanner    
   image:
     runs-on: ubuntu-latest
     needs: build-and-test   
