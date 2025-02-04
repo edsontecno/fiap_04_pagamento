@@ -29,6 +29,12 @@ jobs:
 
       - name: Coverage tests
         run: mvn clean verify jacoco:report
+      
+      - name: Install SonarScanner
+        run: |
+          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner.zip
+          echo "$(pwd)/sonar-scanner-5.0.1.3006-linux/bin" >> $GITHUB_PATH  
 
       - name: Run SonarCloud Scan
         env:
