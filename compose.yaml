@@ -1,14 +1,14 @@
 services:
-  mongodb:
-    image: mongo
-    container_name: ${DB_NAME}
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+  # mongodb:
+  #   image: mongo
+  #   container_name: ${DB_NAME}
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongo_data:/data/db
 
   backend:
     build: .
@@ -17,8 +17,9 @@ services:
       MERCADOPAGO_TOKEN: ${ENV_MERCADOPAGO_TOKEN}
       AWS_ACCESSKEY: ${ENV_AWS_ACCESSKEY}
       AWS_SECRETKEY: ${ENV_AWS_SECRETKEY}
+      AWS_SESSION_TOKEN: ${ENV_AWS_SESSION_TOKEN}
     ports:
       - "8080:8080"
 
-volumes:
-  mongo_data:
+# volumes:
+#   mongo_data:
