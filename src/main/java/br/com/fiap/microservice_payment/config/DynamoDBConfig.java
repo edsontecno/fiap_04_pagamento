@@ -2,6 +2,7 @@ package br.com.fiap.microservice_payment.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.BasicSessionCredentials;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import org.apache.commons.lang.StringUtils;
@@ -23,6 +24,9 @@ public class DynamoDBConfig {
     @Value("${amazon.aws.secretkey}")
     private String amazonAWSSecretKey;
 
+    @Value("${amazon.aws.sessiontoken}") // Novo campo para o session token
+    private String amazonAWSSessionToken;
+
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
         AmazonDynamoDB amazonDynamoDB
@@ -36,7 +40,10 @@ public class DynamoDBConfig {
 
     @Bean
     public AWSCredentials amazonAWSCredentials() {
-        return new BasicAWSCredentials(
-                amazonAWSAccessKey, amazonAWSSecretKey);
+        return new BasicSessionCredentials(
+                amazonAWSAccessKey, 
+                amazonAWSSecretKey, 
+                amazonAWSSessionToken
+        );
     }
 }
