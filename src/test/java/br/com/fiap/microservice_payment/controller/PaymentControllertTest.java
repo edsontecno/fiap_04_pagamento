@@ -73,7 +73,6 @@ public class PaymentControllertTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", is("1")));
-
     }
 
     @Order(3)
